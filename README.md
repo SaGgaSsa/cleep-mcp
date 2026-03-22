@@ -25,13 +25,19 @@ Abre el navegador para iniciar sesión con Google y guarda la API key en `~/.cle
 claude mcp add cleep -- npx -y cleep-mcp
 ```
 
-No hace falta configurar nada más: la URL del servidor ya está fija en el código y la API key se lee de `~/.cleep/config.json`.
+### 2. Registrar en Codex
 
-### 3. Verificar
+Agregá esto en `~/.codex/config.toml`:
 
-```bash
-claude mcp list
+```toml
+[mcp_servers.cleep]
+command = "npx"
+args = ["-y", "cleep-mcp"]
 ```
+
+---
+
+No hace falta configurar nada más: la URL del servidor ya está fija en el código y la API key se lee de `~/.cleep/config.json`.
 
 ## Desarrollo
 
