@@ -7,9 +7,13 @@
   "bin": {
     "cleep-mcp": "build/cli.js"
   },
+  "files": [
+    "build/"
+  ],
   "scripts": {
     "build": "tsc",
-    "dev": "tsc --watch"
+    "dev": "tsc --watch",
+    "prepublishOnly": "npm run build"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.0.0"
