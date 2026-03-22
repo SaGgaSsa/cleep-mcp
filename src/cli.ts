@@ -3,11 +3,13 @@ import { basename } from "node:path";
 import { performLogin } from "./login.js";
 
 const args = process.argv.slice(2);
-const projectFlagIndex = args.indexOf("--project");
-const command = projectFlagIndex !== -1 ? args.find((a) => !a.startsWith("-")) : args[0];
 
-if (projectFlagIndex !== -1) {
-  process.env.CLEEP_PROJECT = basename(process.cwd());
+const projectArg = args.find((a) => a === "--project" || a.startsWith("--project="));
+const command = projectArg !== undefined ? args.find((a) => !a.startsWith("-")) : args[0];
+
+if (projectArg !== undefined) {
+  const explicitValue = projectArg.includes("=") ? projectArg.split("=")[1] : undefined;
+  process.env.CLEEP_PROJECT = explicitValue ?? basename(process.cwd());
 }
 
 switch (command) {

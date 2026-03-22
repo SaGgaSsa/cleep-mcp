@@ -31,6 +31,11 @@ Con filtro por proyecto (usa el nombre de la carpeta actual):
 claude mcp add cleep -- npx -y cleep-mcp --project
 ```
 
+Con nombre de proyecto explícito:
+```bash
+claude mcp add cleep -- npx -y cleep-mcp --project=mi-proyecto
+```
+
 ### 2. Registrar en Codex
 
 Sin filtro de proyecto:
@@ -40,18 +45,31 @@ command = "npx"
 args = ["-y", "cleep-mcp"]
 ```
 
-Con filtro por proyecto:
+Con filtro por proyecto (carpeta actual):
 ```toml
 [mcp_servers.cleep]
 command = "npx"
 args = ["-y", "cleep-mcp", "--project"]
 ```
 
+Con nombre de proyecto explícito:
+```toml
+[mcp_servers.cleep]
+command = "npx"
+args = ["-y", "cleep-mcp", "--project=mi-proyecto"]
+```
+
 Agregá la configuración elegida en `~/.codex/config.toml`.
 
 ---
 
-La URL del servidor ya está fija en el código y la API key se lee de `~/.cleep/config.json`. El flag `--project` toma automáticamente el nombre de la carpeta desde donde se ejecuta el MCP.
+La URL del servidor ya está fija en el código y la API key se lee de `~/.cleep/config.json`.
+
+**Sobre el flag `--project`:**
+- `--project` — usa el nombre de la carpeta donde se ejecuta el MCP
+- `--project=nombre` — usa el nombre especificado
+
+Si el proyecto no existe en Cleep, se crea automáticamente al ejecutarse. Esto permite crear proyectos nuevos directamente desde el MCP sin necesidad de usar la app o la web.
 
 ## Desarrollo
 
