@@ -3,7 +3,10 @@
   "version": "1.0.0",
   "description": "MCP server for Cleep - expose captured ideas via Claude Code",
   "type": "module",
-  "main": "build/index.js",
+  "main": "build/server.js",
+  "bin": {
+    "cleep-mcp": "build/cli.js"
+  },
   "scripts": {
     "build": "tsc",
     "dev": "tsc --watch"
