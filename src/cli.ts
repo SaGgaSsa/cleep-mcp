@@ -1,14 +1,12 @@
 #!/usr/bin/env node
-import { resolveServerUrl } from "./config.js";
 import { performLogin } from "./login.js";
 
 const command = process.argv[2];
 
 switch (command) {
   case "login": {
-    const serverUrl = resolveServerUrl();
     try {
-      await performLogin(serverUrl);
+      await performLogin();
       process.stdout.write(
         `Login exitoso. Tu clave API fue guardada en ~/.cleep/config.json\n`,
       );

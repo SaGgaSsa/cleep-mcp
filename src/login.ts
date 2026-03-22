@@ -1,6 +1,6 @@
 import { exec } from "node:child_process";
 import type { AuthStatusResponse, CleepConfig } from "./types.js";
-import { DEFAULT_SERVER_URL, writeConfig } from "./config.js";
+import { resolveServerUrl, writeConfig } from "./config.js";
 
 // ── Browser opener ──────────────────────────────────────────────────────────
 
@@ -42,7 +42,8 @@ function sleep(ms: number): Promise<void> {
 
 // ── Main login flow ─────────────────────────────────────────────────────────
 
-export async function performLogin(serverUrl: string): Promise<CleepConfig> {
+export async function performLogin(): Promise<CleepConfig> {
+  const serverUrl = resolveServerUrl();
   const state = crypto.randomUUID();
   const loginUrl = `${serverUrl}/auth/google?state=${encodeURIComponent(state)}`;
 
@@ -58,10 +59,7 @@ export async function performLogin(serverUrl: string): Promise<CleepConfig> {
     const status = await pollStatus(serverUrl, state);
 
     if (status.status === "complete") {
-      const config: CleepConfig = {
-        apiKey: status.apiKey,
-        ...(serverUrl !== DEFAULT_SERVER_URL ? { serverUrl } : {}),
-      };
+      const config: CleepConfig = { apiKey: status.apiKey };
       writeConfig(config);
       return config;
     }

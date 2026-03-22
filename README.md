@@ -21,7 +21,7 @@ npm run build
 ### 2. Configurar en Claude Code
 
 ```bash
-claude mcp add cleep -- env CLEEP_API_KEY=clp_xxx CLEEP_SERVER_URL=https://cleep-server.onrender.com node /ruta/absoluta/al/build/index.js
+claude mcp add cleep -- env CLEEP_API_KEY=clp_xxx node /ruta/absoluta/al/build/index.js
 ```
 
 Reemplazá:
@@ -39,7 +39,6 @@ claude mcp list
 | Variable | Descripción | Requerida |
 |----------|-------------|-----------|
 | `CLEEP_API_KEY` | API key del usuario (`Authorization: Bearer <key>`) | Sí |
-| `CLEEP_SERVER_URL` | Base URL del backend (ej: `https://cleep-server.onrender.com`) | Sí |
 
 ## Desarrollo
 

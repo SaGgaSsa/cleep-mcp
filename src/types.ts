@@ -21,7 +21,6 @@ export interface DeleteCleepsResponse {
 
 export interface CleepConfig {
   readonly apiKey: string;
-  readonly serverUrl?: string;
 }
 
 export interface AuthStatusPending {

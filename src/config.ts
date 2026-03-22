@@ -44,7 +44,5 @@ export function resolveApiKey(): string | null {
 }
 
 export function resolveServerUrl(): string {
-  const url =
-    process.env.CLEEP_SERVER_URL ?? readConfig()?.serverUrl ?? DEFAULT_SERVER_URL;
-  return url.replace(/\/$/, "");
+  return DEFAULT_SERVER_URL;
 }
