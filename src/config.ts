@@ -6,6 +6,11 @@ import type { CleepConfig } from "./types.js";
 // ── Constants ───────────────────────────────────────────────────────────────
 
 export const DEFAULT_SERVER_URL = "https://cleep-server.onrender.com";
+export const WEB_APP_URL = "https://cleep-web.vercel.app";
+
+// Local dev:
+// export const DEFAULT_SERVER_URL = "http://localhost:3100";
+// export const WEB_APP_URL = "http://localhost:3000";
 
 const CONFIG_PATH = join(homedir(), ".cleep", "config.json");
 

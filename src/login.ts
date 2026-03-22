@@ -1,6 +1,6 @@
 import { exec } from "node:child_process";
 import type { AuthStatusResponse, CleepConfig } from "./types.js";
-import { resolveServerUrl, writeConfig } from "./config.js";
+import { resolveServerUrl, WEB_APP_URL, writeConfig } from "./config.js";
 
 // ── Browser opener ──────────────────────────────────────────────────────────
 
@@ -26,10 +26,11 @@ const TIMEOUT_MS = 120_000;
 async function pollStatus(
   serverUrl: string,
   state: string,
-): Promise<AuthStatusResponse> {
+): Promise<AuthStatusResponse | null> {
   const url = `${serverUrl}/auth/status?state=${encodeURIComponent(state)}`;
   const res = await fetch(url, { method: "GET" });
-  if (!res.ok && res.status !== 202) {
+  if (res.status === 404 || res.status === 202) return null;
+  if (!res.ok) {
     const body = await res.text().catch(() => "");
     throw new Error(`Error al verificar estado de login: ${res.status}${body ? ` — ${body}` : ""}`);
   }
@@ -45,7 +46,7 @@ function sleep(ms: number): Promise<void> {
 export async function performLogin(): Promise<CleepConfig> {
   const serverUrl = resolveServerUrl();
   const state = crypto.randomUUID();
-  const loginUrl = `${serverUrl}/auth/google?state=${encodeURIComponent(state)}`;
+  const loginUrl = `${WEB_APP_URL}/?cli_state=${encodeURIComponent(state)}`;
 
   process.stdout.write(`Abriendo el navegador para iniciar sesión...\n`);
   process.stdout.write(`Si el navegador no se abre, visitá:\n${loginUrl}\n\n`);
@@ -56,12 +57,15 @@ export async function performLogin(): Promise<CleepConfig> {
   while (Date.now() < deadline) {
     await sleep(POLL_INTERVAL_MS);
 
-    const status = await pollStatus(serverUrl, state);
-
-    if (status.status === "complete") {
-      const config: CleepConfig = { apiKey: status.apiKey };
-      writeConfig(config);
-      return config;
+    try {
+      const status = await pollStatus(serverUrl, state);
+      if (status !== null && status.status === "complete") {
+        const config: CleepConfig = { apiKey: status.apiKey };
+        writeConfig(config);
+        return config;
+      }
+    } catch (err) {
+      process.stderr.write(`[poll error] ${err instanceof Error ? err.message : String(err)}\n`);
     }
   }
 

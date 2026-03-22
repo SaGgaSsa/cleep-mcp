@@ -1,6 +1,6 @@
 {
   "name": "cleep-mcp",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "MCP server for Cleep - expose captured ideas via Claude Code",
   "type": "module",
   "main": "build/server.js",
