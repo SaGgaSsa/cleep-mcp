@@ -9,6 +9,7 @@ import { formatCleepList } from "./format.js";
 
 const apiKey = resolveApiKey();
 const baseUrl = resolveServerUrl();
+const project = process.env.CLEEP_PROJECT ?? null;
 
 const NO_KEY_MESSAGE =
   "No hay clave API configurada. Ejecutá: npx cleep-mcp login";
@@ -34,7 +35,7 @@ server.tool("get_cleeps", "Trae los cleeps (ideas capturadas) pendientes del usu
   }
 
   try {
-    const data = await getCleeps(baseUrl, apiKey);
+    const data = await getCleeps(baseUrl, apiKey, project ?? undefined);
     return {
       content: [{ type: "text", text: formatCleepList(data) }],
     };

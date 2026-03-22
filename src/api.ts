@@ -33,8 +33,12 @@ async function checkResponse(res: Response, label: string): Promise<void> {
 export async function getCleeps(
   baseUrl: string,
   apiKey: string,
+  project?: string,
 ): Promise<GetCleepsResponse> {
-  const res = await fetch(`${baseUrl}/cleeps`, {
+  const url = project
+    ? `${baseUrl}/cleeps?project=${encodeURIComponent(project)}`
+    : `${baseUrl}/cleeps`;
+  const res = await fetch(url, {
     method: "GET",
     headers: authHeaders(apiKey),
   });

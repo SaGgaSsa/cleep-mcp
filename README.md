@@ -21,23 +21,37 @@ Abre el navegador para iniciar sesión con Google y guarda la API key en `~/.cle
 
 ### 2. Registrar en Claude Code
 
+Sin filtro de proyecto (trae todos los cleeps):
 ```bash
 claude mcp add cleep -- npx -y cleep-mcp
 ```
 
+Con filtro por proyecto (usa el nombre de la carpeta actual):
+```bash
+claude mcp add cleep -- npx -y cleep-mcp --project
+```
+
 ### 2. Registrar en Codex
 
-Agregá esto en `~/.codex/config.toml`:
-
+Sin filtro de proyecto:
 ```toml
 [mcp_servers.cleep]
 command = "npx"
 args = ["-y", "cleep-mcp"]
 ```
 
+Con filtro por proyecto:
+```toml
+[mcp_servers.cleep]
+command = "npx"
+args = ["-y", "cleep-mcp", "--project"]
+```
+
+Agregá la configuración elegida en `~/.codex/config.toml`.
+
 ---
 
-No hace falta configurar nada más: la URL del servidor ya está fija en el código y la API key se lee de `~/.cleep/config.json`.
+La URL del servidor ya está fija en el código y la API key se lee de `~/.cleep/config.json`. El flag `--project` toma automáticamente el nombre de la carpeta desde donde se ejecuta el MCP.
 
 ## Desarrollo
 

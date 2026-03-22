@@ -1,7 +1,14 @@
 #!/usr/bin/env node
+import { basename } from "node:path";
 import { performLogin } from "./login.js";
 
-const command = process.argv[2];
+const args = process.argv.slice(2);
+const projectFlagIndex = args.indexOf("--project");
+const command = projectFlagIndex !== -1 ? args.find((a) => !a.startsWith("-")) : args[0];
+
+if (projectFlagIndex !== -1) {
+  process.env.CLEEP_PROJECT = basename(process.cwd());
+}
 
 switch (command) {
   case "login": {
